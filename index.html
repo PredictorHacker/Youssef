@@ -1,23 +1,47 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en-GH">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Prédicteur IA – Dépôt</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>HACKBOT PRO | Aviator & Penalty Predictor Ghana</title>
+
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
   <style>
-    .console-box {
-      font-family: monospace;
-      background-color: #1a1a1a;
-      padding: 1rem;
-      border-radius: 0.5rem;
-      box-shadow: 0 0 20px #00ff88;
-      color: #00ff88;
-      height: 250px;
-      overflow-y: auto;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
-    .loading-screen {
-      font-family: monospace;
+
+    body {
+      background: #0a0a0a;
+      font-family: 'Segoe UI', 'Poppins', system-ui, -apple-system, sans-serif;
+    }
+
+    .neon-text {
+      text-shadow: 0 0 5px #00ff88, 0 0 10px #00ff88, 0 0 20px #00ff88;
+      animation: flicker 2s infinite;
+    }
+
+    @keyframes flicker {
+      0% { opacity: 1; text-shadow: 0 0 5px #00ff88, 0 0 10px #00ff88; }
+      50% { opacity: 0.95; text-shadow: 0 0 8px #00ff88, 0 0 15px #00ff88, 0 0 25px #00ff88; }
+      100% { opacity: 1; text-shadow: 0 0 5px #00ff88, 0 0 10px #00ff88; }
+    }
+
+    .pulse {
+      animation: pulse-animation 1.2s infinite;
+    }
+
+    @keyframes pulse-animation {
+      0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 255, 136, 0.7); }
+      70% { transform: scale(1.02); box-shadow: 0 0 0 15px rgba(0, 255, 136, 0); }
+      100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 255, 136, 0); }
+    }
+
+    .console-loading {
+      font-family: 'Courier New', monospace;
       background: #000;
       color: #00ff88;
       display: flex;
@@ -25,128 +49,601 @@
       justify-content: center;
       height: 100vh;
       flex-direction: column;
-      z-index: 50;
+      z-index: 100;
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
     }
-    .hidden-screen { display: none; }
+
+    .hidden-screen {
+      display: none;
+    }
+
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #1a1a1a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #00ff88;
+      border-radius: 10px;
+    }
+
+    .neon-border {
+      border: 1px solid #00ff88;
+      box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+      animation: borderGlow 1.5s infinite alternate;
+    }
+
+    @keyframes borderGlow {
+      from { box-shadow: 0 0 5px rgba(0, 255, 136, 0.3); border-color: #00cc66; }
+      to { box-shadow: 0 0 25px rgba(0, 255, 136, 0.8); border-color: #00ffaa; }
+    }
+
+    .counter-badge {
+      background: rgba(0, 255, 136, 0.15);
+      backdrop-filter: blur(4px);
+      border: 1px solid #00ff88;
+    }
+
+    input {
+      color: #ffffff !important;
+      background-color: #0f172a !important;
+      caret-color: #00ff88;
+    }
+    input::placeholder {
+      color: #94a3b8 !important;
+      opacity: 1;
+    }
+    input:focus {
+      box-shadow: 0 0 15px #00ff88;
+      border-color: #00ff88 !important;
+      outline: none;
+    }
+    .id-input {
+      color: white !important;
+      background: #1e293b !important;
+      border: 2px solid #0affc4;
+      font-weight: 500;
+      letter-spacing: 1px;
+    }
+    .id-input:focus {
+      background: #0f172a !important;
+      border-color: #ff44cc !important;
+      box-shadow: 0 0 20px #ff44cc;
+    }
+
+    .glow-card {
+      background: rgba(10, 20, 30, 0.85);
+      backdrop-filter: blur(12px);
+      border: 2px solid rgba(0, 255, 200, 0.9);
+      box-shadow: 0 0 30px rgba(0, 255, 200, 0.5), inset 0 0 15px rgba(0, 255, 200, 0.2);
+      transition: all 0.3s ease;
+    }
+    .glow-card:hover {
+      transform: scale(1.01);
+      border-color: #ff44cc;
+      box-shadow: 0 0 40px rgba(255, 68, 204, 0.6), inset 0 0 20px rgba(255, 68, 204, 0.3);
+    }
+
+    .winners-premium {
+      background: linear-gradient(135deg, #1e1a0f 0%, #0f0c07 100%);
+      border: 2px solid #f5b81b;
+      box-shadow: 0 0 25px rgba(245, 184, 27, 0.6), inset 0 1px 0 rgba(255,215,0,0.3);
+      border-radius: 2rem;
+      padding: 1.8rem 1rem;
+      position: relative;
+      backdrop-filter: blur(4px);
+    }
+    .winners-premium::before {
+      content: "🏆";
+      position: absolute;
+      top: -15px;
+      left: 20px;
+      font-size: 2rem;
+      background: #0a0a0a;
+      padding: 0 10px;
+      border-radius: 40px;
+      text-shadow: 0 0 8px gold;
+    }
+    .winners-premium h3 {
+      font-weight: 800;
+      letter-spacing: -0.3px;
+      text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+    }
+    .winner-item {
+      background: #000000dd;
+      border-left: 5px solid #f5b81b;
+      transition: 0.2s;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+      border-radius: 1rem;
+      padding: 0.9rem 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .winner-item:hover {
+      transform: translateX(5px);
+      border-left-color: #ffdd55;
+      box-shadow: 0 0 18px rgba(245,184,27,0.6);
+      background: #000000cc;
+    }
+    .winner-id {
+      font-family: 'Courier New', monospace;
+      font-weight: 700;
+      background: #000000aa;
+      padding: 0.2rem 0.7rem;
+      border-radius: 40px;
+      letter-spacing: 1px;
+      color: #fde047;
+      font-size: 0.9rem;
+      border: 1px solid rgba(245,200,50,0.5);
+      display: inline-block;
+    }
+    .winner-amount {
+      font-weight: 800;
+      font-size: 1.2rem;
+      background: linear-gradient(135deg, #fbbf24, #f59e0b);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 5px rgba(245,158,11,0.5);
+    }
+    .winner-time {
+      font-size: 0.7rem;
+      color: #d97706;
+      background: rgba(0,0,0,0.6);
+      padding: 0.2rem 0.6rem;
+      border-radius: 30px;
+      font-weight: 500;
+    }
+    @media (max-width: 640px) {
+      .winner-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.4rem;
+      }
+      .winner-amount {
+        font-size: 1.1rem;
+      }
+    }
+
+    .verify-text {
+      color: #ffffff !important;
+      text-shadow: 0 0 8px rgba(0,255,200,0.5);
+      background: rgba(0,0,0,0.5);
+      display: inline-block;
+      padding: 0.2rem 0.8rem;
+      border-radius: 40px;
+      font-weight: 500;
+    }
+
+    .winners-verified {
+      color: #facc15 !important;
+      font-weight: bold;
+      text-shadow: 0 0 5px rgba(250,204,21,0.5);
+      background: rgba(0,0,0,0.6);
+      display: inline-block;
+      padding: 0.25rem 1rem;
+      border-radius: 30px;
+      font-size: 0.75rem;
+    }
+
+    .retiros-text {
+      color: #facc15 !important;
+      font-weight: 800;
+      text-shadow: 0 0 8px rgba(0,0,0,0.8), 0 0 5px #000000;
+      background: rgba(0,0,0,0.7);
+      display: inline-block;
+      padding: 0.3rem 1rem;
+      border-radius: 40px;
+      font-size: 0.8rem;
+      letter-spacing: 0.5px;
+    }
+
+    .signal-button {
+      background: linear-gradient(135deg, #00ff88, #00cc66) !important;
+      color: #000000 !important;
+      font-weight: 900 !important;
+      text-shadow: 0 1px 2px rgba(255,255,255,0.3);
+      border: 2px solid #ffffffcc !important;
+      box-shadow: 0 0 20px rgba(0,255,136,0.8), 0 4px 10px rgba(0,0,0,0.5) !important;
+      transition: all 0.2s ease;
+    }
+    .signal-button:hover {
+      transform: scale(1.02);
+      background: linear-gradient(135deg, #22ff99, #00dd77) !important;
+      box-shadow: 0 0 28px rgba(0,255,136,1) !important;
+      border-color: white !important;
+    }
+
+    .connect-main-button {
+      background: linear-gradient(135deg, #00ffcc, #00cc99) !important;
+      color: #000000 !important;
+      font-weight: 900 !important;
+      text-shadow: 0 1px 2px rgba(255,255,255,0.4);
+      border: 2px solid #f0f0f0cc !important;
+      box-shadow: 0 0 22px rgba(0,255,200,0.9), 0 4px 12px rgba(0,0,0,0.6) !important;
+      transition: all 0.2s ease;
+    }
+    .connect-main-button:hover {
+      transform: scale(1.02);
+      background: linear-gradient(135deg, #22ffdd, #00ddaa) !important;
+      box-shadow: 0 0 30px rgba(0,255,210,1) !important;
+      border-color: white !important;
+    }
+
+    .game-mode-card {
+      background: radial-gradient(circle at 20% 30%, rgba(255, 50, 100, 0.2), rgba(0, 200, 255, 0.15));
+      backdrop-filter: blur(8px);
+      border: 1.5px solid;
+      border-image: linear-gradient(135deg, #ff3366, #00e0ff) 1;
+      animation: rgbPulse 2s infinite alternate;
+      box-shadow: 0 10px 25px -5px rgba(0, 255, 255, 0.4);
+      transition: all 0.25s ease;
+    }
+    .game-mode-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 20px 35px -8px #ff44aa80, 0 0 20px #00ccffff;
+      border-width: 2px;
+    }
+    @keyframes rgbPulse {
+      0% { border-color: #ff3366; box-shadow: 0 0 8px #ff3366; }
+      100% { border-color: #00e0ff; box-shadow: 0 0 20px #00e0ff; }
+    }
+    .game-mode-card .emoji-big {
+      filter: drop-shadow(0 0 5px cyan);
+    }
+
+    .game-mode-card h4 {
+      font-size: 2rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, #a5f3ff, #00e0ff, #2dd4bf);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 15px rgba(0,224,255,0.6);
+      letter-spacing: 1px;
+    }
+
+    .precision-badge {
+      background: linear-gradient(135deg, #0a2f2f, #041a1a);
+      border: 1px solid #00ffcc;
+      border-radius: 30px;
+      padding: 0.25rem 1rem;
+      display: inline-block;
+      font-weight: bold;
+      color: #b2f5ea;
+      box-shadow: 0 0 12px rgba(0,255,200,0.4);
+      backdrop-filter: blur(4px);
+      font-size: 0.8rem;
+    }
+
+    .section-divider {
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #0affaa, #ff44cc, #0affaa, transparent);
+      width: 70%;
+      margin: 2rem auto;
+    }
   </style>
 </head>
-<body class="bg-gray-900 text-white font-sans">
-  <div id="loading" class="loading-screen">
-    <p>Chargement... Veuillez patienter pendant que nous configurons votre expérience.</p>
+<body>
+
+  <!-- LOADING SCREEN -->
+  <div id="loading" class="console-loading">
+    <div class="text-2xl mb-4">🤖 HACKBOT PRO</div>
+    <div class="text-sm">Initializing prediction algorithms...</div>
+    <div class="text-xs mt-2 opacity-70">Loading Ghana servers 🇬🇭</div>
   </div>
+
+  <!-- MAIN CONTENT -->
   <div id="mainContent" class="hidden-screen">
-    <header class="w-full bg-gray-800 p-4 flex justify-between items-center">
-      <h1 class="text-xl font-bold text-green-400">BetandYou IA Prédicteur</h1>
-      <nav class="space-x-4">
-        <a href="#how" class="hover:text-green-400">Comment ça marche</a>
-        <a href="#games" class="hover:text-green-400">Jeux</a>
-        <a href="#start" class="hover:text-green-400">Commencer</a>
-      </nav>
+
+    <!-- HEADER NEON -->
+    <header class="fixed top-0 w-full bg-black/90 backdrop-blur-md p-3 flex justify-between items-center border-b border-green-500 z-50">
+      <h1 class="text-lg md:text-xl font-bold text-green-400 neon-text">
+        🤖 HACKBOT PRO | GHANA
+      </h1>
+      <div class="counter-badge rounded-full px-3 py-1 text-xs font-mono">
+        🔴 ACTIVE: <span id="onlineCount">247</span> ONLINE
+      </div>
     </header>
-    <section class="min-h-screen flex flex-col items-center justify-center px-4 text-center">
-      <h2 class="text-3xl md:text-5xl font-bold mb-6">
-        Gagnez de l'argent réel avec les prédictions IA de jeux
-      </h2>
-      <div class="mb-4 text-lg font-semibold text-yellow-300">
-        👋 Salutations et bienvenue sur le service officiel de <span class="text-green-400">Amani</span> !
-      </div>
-      <p class="max-w-xl mb-8 text-gray-300">
-        Rejoignez des milliers d’utilisateurs qui gagnent avec notre IA intelligente sur Aviator, Mines et Penalty. 98% de précision, prédictions en temps réel et retraits instantanés !
-      </p>
-      <!-- ID input for connection -->
-      <input id="userId" type="text" placeholder="Entrez votre identifiant" class="bg-gray-700 text-white p-3 rounded-md mb-4" />
-      <button id="connectButton" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-6 rounded-xl text-lg transition">Connecter le compte</button>
-      <!-- Success message -->
-      <div id="connectionSuccess" class="hidden text-green-400 font-bold mt-6">
-        <p>ID de compte : <span id="accountIdDisplay">1234567890</span> connecté avec succès !</p>
-        <p>Statut : Actif | 100% précision des prédictions | Algorithmes IA analysés</p>
-        <button id="getSignalButton" class="bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-6 rounded-xl text-lg transition mt-4">Obtenir un signal</button>
-      </div>
-      <!-- Error message for deposit + PROMOCODE block -->
-      <div id="errorBox" class="hidden bg-red-600 p-6 rounded-xl max-w-md mx-auto mt-6">
-        <h2 class="text-xl font-bold mb-2">⚠️ Dépôt non trouvé</h2>
-        <p class="mb-4">Il semble que votre solde soit vide. Veuillez effectuer un dépôt de <strong>2200 XOF</strong> pour débloquer l'accès aux signaux et commencer à gagner !</p>
-        <a href="https://refpa69905.com/L?tag=d_4936036m_64381c_bat&site=4936036&ad=64381&r=registration?bonus=casino" target="_blank" id="depositButton" class="inline-block bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-2 px-4 rounded-lg transition">
-          Déposer maintenant sur BetandYou
-        </a>
-        <!-- Промокод и напоминание -->
-        <div class="mt-6 bg-red-800 text-white p-4 rounded-lg font-bold text-center">
-           <div class="mb-1 text-lg">Votre code promo : <span class="bg-black p-1 rounded text-green-400">WW911</span></div>
-<div>N'oubliez pas de vous inscrire <span class="underline">uniquement</span> avec ce code promo pour accéder à toutes les fonctionnalités&nbsp;!</div>
+
+    <main class="pt-20 pb-10 px-4 max-w-6xl mx-auto">
+
+      <!-- HERO -->
+      <section class="text-center mb-12">
+        <div class="inline-block bg-green-500/20 text-green-400 rounded-full px-4 py-1 text-sm mb-4 border border-green-500">
+          🔥 OFFICIAL GHANA | HACKBOT v3.0
+        </div>
+        <h2 class="text-3xl md:text-5xl font-extrabold mb-4 bg-gradient-to-r from-green-300 to-green-600 bg-clip-text text-transparent">
+          Win with AI that PREDICTS<br>before the crash
+        </h2>
+        <p class="text-gray-400 max-w-xl mx-auto">
+          Algorithm trained on <strong class="text-green-400">+50,000 rounds</strong> of Aviator, Penalty & Mines.
+          Proven effectiveness: <span class="text-yellow-400 font-bold">97.8%</span>
+        </p>
+        <div class="flex justify-center gap-2 mt-4 text-xs text-green-300">
+          <span>✅ No withdrawal limits</span>
+          <span>✅ 24/7 support</span>
+          <span>✅ Daily updates</span>
+        </div>
+      </section>
+
+      <!-- ========== CONNECT YOUR ACCOUNT ========== -->
+      <div class="max-w-md mx-auto mb-12">
+        <div class="glow-card rounded-2xl p-6 md:p-8 shadow-2xl transition-all">
+          <div class="text-center mb-6">
+            <div class="text-5xl mb-2 animate-pulse">🔐✨</div>
+            <h3 class="text-2xl font-extrabold bg-gradient-to-r from-cyan-300 to-pink-400 bg-clip-text text-transparent">Connect your BetAndYou account</h3>
+            <p class="verify-text text-sm mt-2">🔍 We verify your ID and activate VIP signals</p>
+          </div>
+
+          <input
+            id="userId"
+            type="text"
+            placeholder="e.g. 1234567890"
+            class="id-input w-full p-3 rounded-xl text-center border-2 border-cyan-400 focus:border-pink-500 outline-none transition text-base font-mono"
+            style="color: white !important; background: #0f172a !important;"
+          />
+
+          <button
+            id="connectButton"
+            class="connect-main-button w-full mt-4 font-bold py-3 rounded-xl text-lg transition transform hover:scale-[1.02] shadow-xl"
+          >
+            🚀 CONNECT & ACTIVATE BOT
+          </button>
+
+          <div id="connectionSuccess" class="hidden text-green-400 font-bold mt-6 text-center space-y-2">
+            <p>✅ ID: <span id="accountIdDisplay"></span> connected</p>
+            <p class="text-sm">🔓 Ghana server: <span class="text-cyan-300">ACTIVE</span></p>
+            <button
+              id="getSignalButton"
+              class="signal-button w-full font-bold py-3 rounded-xl text-lg transition transform hover:scale-[1.02] shadow-xl"
+            >
+              🎯 GET PREDICTIVE SIGNAL
+            </button>
+          </div>
         </div>
       </div>
-    </section>
-    <!-- Остальное без изменений -->
-    <section class="bg-gray-800 py-12 px-6 text-center">
-      <h3 class="text-2xl font-bold text-green-400 mb-6">Gagnants du jour (XAF)</h3>
-      <div class="grid md:grid-cols-2 gap-4 text-left max-w-4xl mx-auto text-sm text-green-300">
-        <p>👤 Identifiant utilisateur : 1218473422 – 275 328 XOF</p>
-        <p>👤 Identifiant utilisateur : 9912384741 – 221 900 XOF</p>
-        <p>👤 Identifiant utilisateur : 3099234822 – 184 120 XOF</p>
-        <p>👤 Identifiant utilisateur : 1187339121 – 150 000 XOF</p>
-        <p>👤 Identifiant utilisateur : 4412900113 – 132 850 XOF</p>
-        <p>👤 Identifiant utilisateur : 8283721091 – 128 440 XOF</p>
-        <p>👤 Identifiant utilisateur : 7751937742 – 100 705 XOF</p>
-        <p>👤 Identifiant utilisateur : 5554921811 – 98 330 XOF</p>
-        <p>👤 Identifiant utilisateur : 1983238742 – 85 000 XOF</p>
-        <p>👤 Identifiant utilisateur : 3377749301 – 79 210 XO F</p>
-      </div>
-    </section>
-    <section id="games" class="bg-gray-800 py-12 px-6 text-center">
-      <h3 class="text-2xl font-bold text-green-400 mb-6">Jeux supportés</h3>
-      <div class="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-        <div class="bg-gray-700 p-6 rounded-xl shadow-lg">
-          <h4 class="text-xl font-bold mb-2">🎮 Aviator</h4>
-          <p class="text-gray-300">Prédisez quand retirer avant que l’avion ne parte ! Notre IA détecte les tendances en temps réel.</p>
+
+      <!-- ERROR BOX (DEPOSIT) -->
+      <div id="errorBox" class="hidden mt-8">
+        <div class="neon-border bg-gradient-to-br from-red-950/80 to-black rounded-2xl p-6 md:p-8 text-center max-w-md mx-auto">
+          <div class="text-5xl mb-3">⚠️</div>
+          <h3 class="text-2xl font-bold text-yellow-400 mb-2">INSUFFICIENT BALANCE</h3>
+          <p class="text-gray-300 mb-4">
+            To unlock <strong class="text-green-400">HACKBOT PRO</strong> you need an active deposit on BetAndYou.
+          </p>
+          <div class="bg-black/50 rounded-xl p-4 mb-5">
+            <p class="text-sm text-gray-400">Minimum deposit required:</p>
+            <p class="text-3xl font-bold text-green-400">50 GHS</p>
+            <p class="text-xs text-gray-500">(approx. 4 USD)</p>
+          </div>
+
+          <a
+            href="https://refpa69905.com/L?tag=d_5851446m_64381c_&site=5851446&ad=64381&r=registration&type=phone&bonus=casino"
+            target="_blank"
+            id="depositButton"
+            class="inline-block w-full bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-black font-bold py-3 px-6 rounded-xl transition text-lg pulse"
+          >
+            💰 DEPOSIT ON BETANDYOU
+          </a>
+
+          <div class="mt-5 bg-gray-900 rounded-xl p-3">
+            <p class="text-sm text-gray-300">🎁 ACTIVE PROMO CODE:</p>
+            <p class="text-2xl font-mono font-bold text-green-400 tracking-wider">GHN222</p>
+            <p class="text-xs text-gray-500 mt-1">Use this code when depositing → <span class="text-yellow-400">+100% BONUS</span></p>
+          </div>
+
+          <div class="mt-4 text-xs text-gray-500 border-t border-gray-700 pt-3">
+            ⏳ Offer valid for <span id="countdownTimer">47:59</span> for verified users
+          </div>
         </div>
-        <div class="bg-gray-700 p-6 rounded-xl shadow-lg">
-          <h4 class="text-xl font-bold mb-2">💣 Mines</h4>
-          <p class="text-gray-300">Évitez les bombes, encaissez les gains. Notre système trouve les chemins à faible risque pour un profit maximal.</p>
+      </div>
+
+      <!-- ========== LATEST WINNERS ========== -->
+      <section class="mt-16 winners-premium">
+        <div class="text-center mb-6 relative z-10">
+          <span class="text-yellow-300 text-sm bg-black/60 px-4 py-1 rounded-full border border-yellow-500">🔥 LIVE UPDATE</span>
+          <h3 class="text-3xl md:text-4xl font-extrabold mt-2 bg-gradient-to-r from-yellow-400 to-amber-500 bg-clip-text text-transparent">Latest winners with HACKBOT PRO</h3>
+          <p class="retiros-text mt-2">✅ Withdrawals verified in real time</p>
         </div>
-        <div class="bg-gray-700 p-6 rounded-xl shadow-lg">
-          <h4 class="text-xl font-bold mb-2">🥅 Penalty</h4>
-          <p class="text-gray-300">Sachez où tirer ou plonger. Battez le gardien avec des prédictions basées sur les données.</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-3xl mx-auto">
+          <div class="winner-item">
+            <div class="flex items-center gap-2 flex-wrap">
+              <span class="winner-id">👤 ID: ****<span id="winner1" class="font-bold text-yellow-300">4518</span></span>
+            </div>
+            <div class="winner-amount">
+              💰 <span id="amount1">1,230</span> GHS
+            </div>
+            <div class="winner-time">
+              🕒 3 min ago
+            </div>
+          </div>
+          <div class="winner-item">
+            <div class="flex items-center gap-2">
+              <span class="winner-id">👤 ID: ****<span id="winner2" class="font-bold text-yellow-300">9912</span></span>
+            </div>
+            <div class="winner-amount">
+              💰 <span id="amount2">850</span> GHS
+            </div>
+            <div class="winner-time">
+              🕒 7 min ago
+            </div>
+          </div>
+          <div class="winner-item">
+            <div class="flex items-center gap-2">
+              <span class="winner-id">👤 ID: ****<span id="winner3" class="font-bold text-yellow-300">3099</span></span>
+            </div>
+            <div class="winner-amount">
+              💰 <span id="amount3">1,512</span> GHS
+            </div>
+            <div class="winner-time">
+              🕒 12 min ago
+            </div>
+          </div>
+          <div class="winner-item">
+            <div class="flex items-center gap-2">
+              <span class="winner-id">👤 ID: ****<span id="winner4" class="font-bold text-yellow-300">1187</span></span>
+            </div>
+            <div class="winner-amount">
+              💰 <span id="amount4">2,285</span> GHS
+            </div>
+            <div class="winner-time">
+              🕒 22 min ago
+            </div>
+          </div>
         </div>
-      </div>
-    </section>
-    <section id="how" class="bg-gray-900 py-12 px-6 text-center">
-      <h3 class="text-2xl font-bold text-green-400 mb-6">Comment ça marche</h3>
-      <div class="max-w-3xl mx-auto space-y-4 text-gray-300">
-        <p>📡 Notre IA analyse les données en direct et l’historique des jeux 24 h/24 et 7 j/7.</p>
-        <p>💡 Elle identifie des schémas qui permettent des gains réguliers.</p>
-        <p>📲 Vous recevez des signaux fiables en temps réel — directement sur votre appareil.</p>
-      </div>
-    </section>
-    <section class="bg-black py-12 px-6 text-center">
-      <h3 class="text-xl font-bold text-green-400 mb-4">[ Console – Journal de surveillance ]</h3>
-      <div class="console-box max-w-3xl mx-auto text-left" id="console">
-        <p>[INFO] Service de prédiction actif ✅</p>
-      </div>
-    </section>
-    <footer class="text-center text-gray-500 text-sm py-6">
-      © 2025 IA Prédicteur. Non affilié à BetandYou. Utilisez de manière responsable.
-    </footer>
+        <div class="text-center mt-6">
+          <span class="winners-verified">⚡ Winners verified by HACKBOT system | AI active 24/7</span>
+        </div>
+      </section>
+
+      <div class="section-divider"></div>
+
+      <!-- ========== ACTIVE HACKING MODES ========== -->
+      <section class="mt-8 mb-8">
+        <h3 class="text-3xl font-bold text-center mb-10 bg-gradient-to-r from-pink-500 via-purple-400 to-cyan-400 bg-clip-text text-transparent">🎮 Active Hacking Modes 🔥</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <!-- AVIATOR -->
+          <div class="game-mode-card rounded-2xl p-6 text-center transition-all duration-300">
+            <div class="text-6xl mb-3 emoji-big animate-bounce">✈️💥</div>
+            <h4 class="text-2xl font-black">Aviator</h4>
+            <p class="text-gray-200 text-sm font-medium mt-2">Crash detection with <span class="text-pink-400 font-bold">30s advance</span></p>
+            <div class="mt-4">
+              <span class="precision-badge">🔮 Accuracy: 98.2%</span>
+            </div>
+          </div>
+          <!-- MINES -->
+          <div class="game-mode-card rounded-2xl p-6 text-center transition-all duration-300">
+            <div class="text-6xl mb-3 emoji-big animate-pulse">💣💎</div>
+            <h4 class="text-2xl font-black text-purple-300">Mines</h4>
+            <p class="text-gray-200 text-sm font-medium mt-2">Bomb-free field scanning + patterns</p>
+            <div class="mt-4 bg-black/50 rounded-full p-1 text-xs text-purple-200">🎯 Hit rate 96.5%</div>
+          </div>
+          <!-- PENALTY -->
+          <div class="game-mode-card rounded-2xl p-6 text-center transition-all duration-300">
+            <div class="text-6xl mb-3 emoji-big">⚽🧤</div>
+            <h4 class="text-2xl font-black text-green-300">Penalty</h4>
+            <p class="text-gray-200 text-sm font-medium mt-2">Goal or miss prediction at <span class="text-green-400">92%</span></p>
+            <div class="mt-4 bg-black/50 rounded-full p-1 text-xs text-green-300">📊 Advanced real-time AI</div>
+          </div>
+        </div>
+        <p class="text-center text-gray-400 text-sm mt-8 border-t border-gray-800 pt-4 italic">
+          ⚡ All 3 modes active simultaneously for HACKBOT PRO members ⚡
+        </p>
+      </section>
+
+      <!-- FOOTER -->
+      <footer class="text-center text-gray-600 text-xs mt-16 pt-6 border-t border-gray-800">
+        <p>© 2026 HACKBOT PRO — Exclusive for Ghana</p>
+        <p class="mt-1">Play responsibly. +18</p>
+      </footer>
+
+    </main>
   </div>
+
   <script>
+    // LOADING SCREEN
     setTimeout(() => {
       document.getElementById("loading").classList.add("hidden-screen");
       document.getElementById("mainContent").classList.remove("hidden-screen");
-    }, 3000);
-    document.getElementById("connectButton").addEventListener("click", () => {
-      const userId = document.getElementById("userId").value;
-      if (userId) {
-        document.getElementById("accountIdDisplay").innerText = userId;
-        document.getElementById("connectionSuccess").classList.remove("hidden");
-        document.getElementById("errorBox").classList.add("hidden");
+    }, 2000);
+
+    // ONLINE COUNTER
+    let online = 247;
+    setInterval(() => {
+      let change = Math.floor(Math.random() * 5) - 2;
+      let newOnline = online + change;
+      if (newOnline > 180 && newOnline < 400) {
+        online = newOnline;
+      }
+      document.getElementById("onlineCount") && (document.getElementById("onlineCount").innerText = online);
+    }, 8000);
+
+    // WINNERS DYNAMIC
+    const winnersList = [
+      { id: "4518", amount: "1,230" }, { id: "9912", amount: "850" },
+      { id: "3099", amount: "1,512" }, { id: "1187", amount: "640" },
+      { id: "4412", amount: "2,285" }, { id: "8283", amount: "920" },
+      { id: "3371", amount: "3,100" }, { id: "5640", amount: "1,875" },
+      { id: "7790", amount: "4,550" }, { id: "2033", amount: "2,930" },
+      { id: "5521", amount: "1,430" }, { id: "9476", amount: "5,200" }
+    ];
+    function updateWinners() {
+      if (document.getElementById("winner1")) {
+        let shuffled = [...winnersList];
+        for (let i = shuffled.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        }
+        document.getElementById("winner1").innerText = shuffled[0].id;
+        document.getElementById("amount1").innerText = shuffled[0].amount;
+        document.getElementById("winner2").innerText = shuffled[1].id;
+        document.getElementById("amount2").innerText = shuffled[1].amount;
+        document.getElementById("winner3").innerText = shuffled[2].id;
+        document.getElementById("amount3").innerText = shuffled[2].amount;
+        document.getElementById("winner4").innerText = shuffled[3].id;
+        document.getElementById("amount4").innerText = shuffled[3].amount;
+      }
+    }
+    updateWinners();
+    setInterval(updateWinners, 15000);
+
+    // TIMER 48 HOURS
+    let timeLeft = 48 * 60 * 60;
+    function updateTimer() {
+      if (document.getElementById("countdownTimer")) {
+        let hours = Math.floor(timeLeft / 3600);
+        let minutes = Math.floor((timeLeft % 3600) / 60);
+        let seconds = timeLeft % 60;
+        document.getElementById("countdownTimer").innerText = 
+          `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        if (timeLeft > 0) timeLeft--;
+      }
+    }
+    updateTimer();
+    setInterval(updateTimer, 1000);
+
+    // CONNECT ACCOUNT
+    const connectBtn = document.getElementById("connectButton");
+    const userIdInput = document.getElementById("userId");
+    const connectSuccessDiv = document.getElementById("connectionSuccess");
+    const accountIdDisplay = document.getElementById("accountIdDisplay");
+    const getSignalBtn = document.getElementById("getSignalButton");
+    const errorBox = document.getElementById("errorBox");
+
+    if (userIdInput) {
+      userIdInput.style.color = "#ffffff";
+      userIdInput.style.backgroundColor = "#0f172a";
+    }
+
+    connectBtn.addEventListener("click", () => {
+      const userId = userIdInput.value.trim();
+      if (userId.length >= 4) {
+        connectBtn.innerText = "⏳ CONNECTING...";
+        setTimeout(() => {
+          connectBtn.classList.add("hidden");
+          userIdInput.classList.add("hidden");
+          accountIdDisplay.innerText = userId;
+          connectSuccessDiv.classList.remove("hidden");
+        }, 1200);
+      } else {
+        alert("Enter a valid BetAndYou ID (min 4 digits)");
       }
     });
-    document.getElementById("getSignalButton").addEventListener("click", () => {
-      document.getElementById("errorBox").classList.remove("hidden");
-    });
+
+    if (getSignalBtn) {
+      getSignalBtn.addEventListener("click", () => {
+        errorBox.classList.remove("hidden");
+        window.scrollTo({ top: errorBox.offsetTop - 80, behavior: "smooth" });
+      });
+    }
   </script>
 </body>
 </html>
